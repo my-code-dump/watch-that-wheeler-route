@@ -1,41 +1,45 @@
 #include <iostream>
+#include <stdlib.h>
 #include <random> 
 #include "mpi/mpi.h"
 
-void printMe(long x) {
+double randomizer(double min, double max) {
+    double x = (double)rand() / RAND_MAX;
+    return (min + x * (max - min));
+}
+
+void find_min(long local_size, long limit) {
     int rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     double lower_bound = 0;
-    double upper_bound = 100000;
-    double output = 0.0;
-    std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
-    std::default_random_engine re;
+    double upper_bound = 10000;
+    double temp = 0.0;
+    double output = randomizer(lower_bound,upper_bound);
 
-    for (int i = 0; i < 10; i++) {
-        output = unif(re);
+    // Linear search to find the MIN value
+    for (long i = 0; i < local_size; i++) {
+        temp = randomizer(lower_bound,upper_bound);
+        if (temp < output) {
+            output = temp;
+        } 
     }
 
-    long currentIndex;
-    long endIndex;
-
-    currentIndex = x * rank;
-    endIndex = x * (rank + 1) + 1;
-
-
+    std::cout << "Rank " << rank << " | Out:" << output << std::endl;
 }
 
 int main (int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
-    
+    srand(time(NULL));
+
     int rank, num_procs;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-    long limit = 1 << 30;
+    long limit = 1 << 10;
     long local_size = limit / num_procs;
 
-    printMe(local_size);
+    find_min(local_size, limit);
 
     MPI_Finalize();
     return 0;
