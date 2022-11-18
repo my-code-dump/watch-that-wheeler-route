@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#PBS -lnodes=8:ppn=8
+#PBD -lwalltime=00:02:00
+
+PROC=8
+
+cd /user/hquang/cs442/homework-4-code-repo-hquang1999
+
+module load openmpi/4.1.2-q2zi
+
+mpirun -n $PROC ./com
