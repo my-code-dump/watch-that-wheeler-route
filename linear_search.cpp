@@ -1,14 +1,13 @@
 #include "linear_search.hpp"
 
-float run_loop(std::uniform_real_distribution<float>& x,
-         std::mt19937& rng,
-         long& local_size) {
-    float output = x(rng);
+float run_loop(std::vector<float>& partition) {
+	int limit = partition.size();
+    float output = partition[0];
     float temp = 0.0;
  
     // "Linear search" to find the MIN value
-    for (long i = 0; i < local_size; i++) {
-        temp = x(rng);
+    for (long i = 1; i < limit; i++) {
+        temp = partition[i];
         if (temp < output) {
             output = temp;
         }
@@ -29,12 +28,17 @@ float find_min_time(long& local_size) {
     std::random_device rd;
     std::mt19937 rng(rd());
     std::uniform_real_distribution<float> dist(lower_bound,upper_bound);
-    
-    // Start timer
-    float start = MPI_Wtime();
 
     // Run the llinear search
-    float output = run_loop(dist, rng, local_size);
+	std::vector<float> partition(local_size,0);
+	for (int i = 0; i < local_size; i++) {
+		partition[i] = dist(rng);
+	}
+ 
+    // Start timer
+    float start = MPI_Wtime();
+    float output = run_loop(partition);
+
     // Apply all reduce on the minimum
     MPI_Allreduce(MPI_IN_PLACE, &output, 1, 
             MPI_FLOAT, MPI_MIN, MPI_COMM_WORLD);

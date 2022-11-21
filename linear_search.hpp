@@ -1,10 +1,10 @@
+#include <iostream>
 #include <random> 
 #include <cstdlib>
-#include "mpi/mpi.h"
+#include <vector>
+#include "mpi.h"
 
-float run_loop(std::uniform_real_distribution<float>& x,
-    std::mt19937& rng,
-    long& local_size);
+float run_loop(std::vector<float>& partition);
 
 float find_min_time(long& local_size);
 
