@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#PBS -lnodes=8:ppn=8
+#PBS -lnodes=12:ppn=8
 #PBD -lwalltime=00:02:00
 
-PROC=8
+PROC=16
 
-cd /user/hquang/cs442/homework-4-code-repo-hquang1999
+cd /user/hquang/cs442/watch-that-wheeler-route
 
 module load openmpi/4.1.2-q2zi
 
-mpirun -n $PROC ./com
+mpirun -n $PROC ./main
