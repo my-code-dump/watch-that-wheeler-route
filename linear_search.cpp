@@ -36,6 +36,7 @@ float find_min_time(long& local_size) {
 	}
  
     // Start timer
+	MPI_Barrier(MPI_COMM_WORLD);
     float start = MPI_Wtime();
     float output = run_loop(partition);
 

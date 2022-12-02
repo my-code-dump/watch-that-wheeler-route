@@ -14,7 +14,7 @@ int main (int argc, char* argv[]) {
 		std::cout << num_procs << " Procs" << std::endl;
 	}
 
-    for (int sz = 10; sz < 25; sz++) {
+    for (int sz = 9; sz <= 25; sz++) {
 		long limit = 1 << sz;
 		long local_size = limit / num_procs;
 		
