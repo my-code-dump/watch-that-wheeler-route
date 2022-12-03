@@ -23,7 +23,7 @@ float find_min_time(long& local_size) {
     
     // Random number generator
     int lower_bound = 0;
-    int upper_bound = 10000;
+    int upper_bound = 8192;
 
     std::random_device rd;
     std::mt19937 rng(rd());
