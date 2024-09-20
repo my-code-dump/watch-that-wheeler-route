@@ -1,7 +1,7 @@
 # MPI Linear Search Algorithm
 This program evenly splits a 1D vector across provided processes.  
 The number of processes used are ***16, 32, 64***.  
-This program is designed to test 
+This program is designed to test linear search scaling with different ammount of processes.
 
 ## Implementation
 
